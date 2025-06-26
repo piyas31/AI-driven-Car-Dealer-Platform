@@ -122,3 +122,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+.dotted-background {
+  background-color: #16223c;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.28) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+}
+
+@layer utilities {
+  .gradient-title {
+    @apply bg-gradient-to-br from-blue-500 to-green-500 font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
+  }
+}
+
+
+
