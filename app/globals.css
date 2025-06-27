@@ -125,6 +125,73 @@
 
 
 
+
+@keyframes gradientWaves {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes spinSpiral {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animated-background {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #16223c, #233d85, #095778, #093b5d);
+  background-size: 400% 400%;
+  animation: gradientWaves 20s ease infinite;
+  color: white;
+}
+
+/* Spiral overlay as rotating pseudo element */
+.animated-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: conic-gradient(
+    from 0deg,
+    rgba(255,255,255,0.06) 0deg 30deg,
+    transparent 30deg 60deg,
+    rgba(255,255,255,0.06) 60deg 90deg,
+    transparent 90deg 120deg
+  );
+  background-size: 100% 100%;
+  animation: spinSpiral 60s linear infinite;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .dotted-background {
   background-color: #16223c;
   background-image: radial-gradient(
@@ -136,9 +203,10 @@
 
 @layer utilities {
   .gradient-title {
-    @apply bg-gradient-to-br from-blue-500 to-green-500 font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
+    @apply bg-gradient-to-br from-cyan-400 to-green-400 font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
   }
 }
+
 
 
 
