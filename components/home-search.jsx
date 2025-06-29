@@ -6,6 +6,7 @@ import { Camera, Upload } from 'lucide-react';
 import { Button } from './ui/button';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const HomeSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,9 +14,26 @@ const HomeSearch = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [searchImage, setSearchImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  
+  const router = useRouter();
 
-  const handleTextSubmit = (e) => {};
-  const handleImageSearch = (e) => {};
+  const handleTextSubmit =async (e) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) {
+      toast.error("Please enter a search term");
+      return;
+    }
+    router.push(`/cars?search=${encodeURIComponent(searchTerm)}`);
+  };
+  const handleImageSearch = async (e) => {
+    e.preventDefault();
+    if (!searchImage) {
+      toast.error("Please upload an image first");
+      return;
+    }
+
+    //add ai logic
+  };
 
    const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -44,7 +62,7 @@ const HomeSearch = () => {
    const {getRootProps, getInputProps, isDragActive, isDragReject} = useDropzone({
     onDrop,
     accept:{
-      "iamge/*": [".jpeg", ".jpg", ".png"]
+      "image/*": [".jpeg", ".jpg", ".png"]
     },
     maxFiles: 1,
   })
@@ -79,12 +97,13 @@ const HomeSearch = () => {
 
       {isImageSearchActive && (<div className='mt-4'>
         <form onSubmit={handleImageSearch}>
-          <div>{imagePreview?(
+          <div className='border-2 border-dashed border-gray-300 rounded-3xl p-6 text-center'>
+            {imagePreview?(
             <div className='flex flex-col items-center'>
             <img
             src={imagePreview}
             alt="Car Preview"
-            className="h-40 object contain mb-4"
+            className="h-40 object-contain mb-4"
             />
             <Button
             variant="outline"
@@ -119,6 +138,11 @@ const HomeSearch = () => {
       
     </div>
           )}</div>
+          {imagePreview && <Button
+          type="submit"
+          className="w-full mt-2"
+          disabled={isUploading}
+          >{isUploading ? "Uploading..." :"Search with this image"}</Button>}
         </form>
         </div>)}
     </div>
