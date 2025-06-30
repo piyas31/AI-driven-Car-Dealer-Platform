@@ -114,18 +114,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-
-
-
 @keyframes gradientWaves {
   0% {
     background-position: 0% 0%;
@@ -152,16 +140,18 @@
   overflow: hidden;
   background: linear-gradient(120deg, #16223c, #233d85, #095778, #093b5d);
   background-size: 400% 400%;
+  background-position: 0% 0%;
   animation: gradientWaves 20s ease infinite;
   color: white;
+  z-index: 1;
 }
 
-/* Spiral overlay as rotating pseudo element */
+
 .animated-background::before {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   background-image: conic-gradient(
     from 0deg,
     rgba(255,255,255,0.06) 0deg 30deg,
@@ -174,6 +164,19 @@
   opacity: 0.4;
   pointer-events: none;
 }
+
+
+.animated-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: url('/cargif.gif') center center / cover no-repeat;
+  opacity: 0.1; 
+  pointer-events: none;
+}
+
+
 
 
 
