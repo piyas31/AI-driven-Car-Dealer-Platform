@@ -1,4 +1,11 @@
-import React from 'react'
+"use client";
+
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
@@ -14,6 +21,8 @@ const bodyTypes = [
 const carStatuses = ["AVAILABLE", "UNAVAILABLE", "SOLD"];
 
 const AddCarForm = () => {
+
+  const [activeTab, setActiveTab]= useState("ai");
 
   const carFormSchema = z.object({
     make: z.string().min(1,"Make is required"),
@@ -34,8 +43,67 @@ const AddCarForm = () => {
   featured: z.boolean().default(false),
   })
 
+  const {
+    register,
+    setValue,
+    getValues,
+    formState: {errors},
+    handleSubmit,
+    watch,
+  }=  useForm({
+    resolver: zodResolver(carFormSchema),
+    defaultValues: {
+      make: "",
+      model: "",
+      year: "",
+      price: "",
+      mileage: "",
+      color: "",
+      fuelType: "",
+      transmission: "",
+      bodyType: "",
+      seats: "",
+      description: "",
+      status: "AVAILABLE",
+      featured: false,
+    },
+  })
+
   return (
-    <div>AddCarForm</div>
+    <div>
+      <Tabs defaultValue="ai"
+    className='mt-6'
+    value={activeTab}
+    onValueChange={setActiveTab}>
+  <TabsList className="grid w-full grid-cols-2">
+    <TabsTrigger value="manual">Manual Entry</TabsTrigger>
+    <TabsTrigger value="ai">AI Upload</TabsTrigger>
+  </TabsList>
+  <TabsContent value="manual" className="mt-6">
+    {/* manual entry code */}
+
+    <Card>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card Description</CardDescription>
+    <CardAction>Card Action</CardAction>
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+  
+</Card>
+
+
+  </TabsContent>
+
+
+  <TabsContent value="ai" className="mt-6">
+    {/* ai entry code */}
+
+  </TabsContent>
+</Tabs>
+    </div>
   )
 }
 
