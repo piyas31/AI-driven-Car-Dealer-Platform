@@ -61,8 +61,50 @@ export async function processCarImageWithAI(file) {
     const text = response.text;
      const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
+     try {
+        const carDetails = JSON.parse(cleanedText);
+
+        const requiredFields = [
+        "make",
+        "model",
+        "year",
+        "color",
+        "bodyType",
+        "price",
+        "mileage",
+        "fuelType",
+        "transmission",
+        "description",
+        "confidence",
+      ];
+
+      const missingFields = requiredFields.filter(
+        (field) => !(field in carDetails)
+      );
+
+      if (missingFields.length > 0) {
+        throw new Error(
+          `Response is missing required fields: ${missingFields.join(", ")}`
+        );
+      }
+
+      return {
+        success: true,
+        data: carDetails,
+      }
+
+        
+     } catch (error) {
+        console.error("Failes to parse AI response:", error);
+        return {
+            success: false,
+            error: "Failed to parse AI response"
+        };
+     }
+
 
     } catch (error) {
-        
+    
+        throw new Error("Gemini API error: " + error.message);
     }
 }
