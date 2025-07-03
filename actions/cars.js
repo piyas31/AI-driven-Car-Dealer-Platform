@@ -1,5 +1,9 @@
+import { createClient } from "@/lib/supabase";
+import { auth } from "@clerk/nextjs/dist/types/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { data } from "autoprefixer";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 async function fileToBase64(file) {
     const bytes = await file.arraybuffer();
@@ -106,5 +110,94 @@ export async function processCarImageWithAI(file) {
     } catch (error) {
     
         throw new Error("Gemini API error: " + error.message);
+    }
+}
+
+export async function addCar({carData, images}) {
+    try {
+        const {userId} = await auth ();
+            if (!userId) {
+                throw new Error("Unauthorized");
+            }
+
+        const user = await db.user.findUnique({
+                where: {clerkUserId: userId},
+            });
+
+        if(!user) throw new Error("User not found");
+
+        const carId = uuidv4();
+        const folderPath = `cars/${carId}`;
+
+        const cookieStore = await cookies();
+        const supabase = createClient(cookieStore);
+
+        const imageUrls= [];
+
+        for(let i = 0; i < images.length; i++){
+            const base64Data = images[i];
+
+            if(!base64Data || !base64Data.startsWith("data:image/")) {
+                console.warn("Skipping invalid image data");
+                continue;
+            }
+
+            const base64 = base64Data.split(",")[1];
+            const imageBuffer = Buffer.from(base64, 'base64');
+
+            const mimeMatch = base64Data.match(/data:image\/([a-zA-Z0-9]+);/);
+            const fileExtension = mimeMatch ? mimeMatch[1] : "jpeg";
+
+            const fileName = `image-${Date.now()}-${i}.${fileExtension}`;
+            const filePath = `${folderPath}/${fileName}`;
+
+            const { data, error } = await supabase.storage
+        .from("car-images")
+        .upload(filePath, imageBuffer, {
+          contentType: `image/${fileExtension}`,
+        });
+
+        if(error) {
+            console.error("Error uploading image:", error);
+            throw new Error(`Failed to upload image: ${error.message}`);
+        }
+
+        const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/car-images/${filePath}`; 
+
+      imageUrls.push(publicUrl);
+    }
+
+    if(imageUrls.length === 0) {
+        throw new Error("No valid images provided");
+    }
+
+      const car = await db.car.create({
+      data: {
+        id: carId, 
+        make: carData.make,
+        model: carData.model,
+        year: carData.year,
+        price: carData.price,
+        mileage: carData.mileage,
+        color: carData.color,
+        fuelType: carData.fuelType,
+        transmission: carData.transmission,
+        bodyType: carData.bodyType,
+        seats: carData.seats,
+        description: carData.description,
+        status: carData.status,
+        featured: carData.featured,
+        images: imageUrls, 
+      },
+    });
+
+    revalidatePath("/admin/cars");
+
+    return {
+        success:true,
+    }
+
+    } catch (error) {
+        throw new Error("Failed to add car: " + error.message);
     }
 }
