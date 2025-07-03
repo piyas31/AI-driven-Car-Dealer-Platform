@@ -18,6 +18,10 @@ export default async function AdminLayout({ children }) {
         <Sidebar />
       </div>
       <main className="md:pl-56 pt-[80px] h-full">{children}</main>
+
+      
     </div>
+
+    
   );
 }

@@ -12,9 +12,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
-import { Upload } from 'lucide-react';
+import { Loader2, Upload, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDropzone } from 'react-dropzone';
+import { Button } from '@/components/ui/button';
+import { set } from 'date-fns';
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
@@ -32,7 +34,7 @@ const carStatuses = ["AVAILABLE", "UNAVAILABLE", "SOLD"];
 const AddCarForm = () => {
 
   const [activeTab, setActiveTab]= useState("ai");
-  const[uploadImages, setUploadedImages] = useState([]);
+  const[uploadedImages, setUploadedImages] = useState([]);
   const[imageError, setImageError] = useState("");
 
   const carFormSchema = z.object({
@@ -126,7 +128,11 @@ const AddCarForm = () => {
       "image/*": [".jpeg", ".jpg", ".png"]
     },
     multiple: true,
-  })
+  });
+
+  const removeImage = (index) => {
+    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <div>
@@ -412,25 +418,25 @@ const AddCarForm = () => {
                     {imageError && (
                       <p className="text-xs text-red-500 mt-1">{imageError}</p>
                     )}
-                    {uploadImages > 0 && (
+                    {/* {uploadProgress > 0 && (
                       <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
                         <div
                           className="bg-blue-600 h-2.5 rounded-full"
                           style={{ width: `${uploadProgress}%` }}
                         ></div>
                       </div>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Image Previews */}
-                  {/* {uploadedImages.length > 0 && (
+                  {uploadedImages.length > 0 && (
                     <div className="mt-4">
                       <h3 className="text-sm font-medium mb-2">
                         Uploaded Images ({uploadedImages.length})
                       </h3>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                        {uploadedImages.map((image, index) => (
-                          <div key={index} className="relative group">
+                        {uploadedImages.map((image, index) => {
+                         return ( <div key={index} className="relative group">
                             <Image
                               src={image}
                               alt={`Car image ${index + 1}`}
@@ -448,12 +454,18 @@ const AddCarForm = () => {
                             >
                               <X className="h-3 w-3" />
                             </Button>
-                          </div>
-                        ))}
+                          </div>)
+                        })}
                       </div>
                     </div>
-                  )} */}
+                  )}
                 </div>
+                <Button type="submit" className="w-full md:w-auto"
+                disabled={true}>
+                  {true? <><Loader2 className='mr-2 h-4 w-4 animate-spin'/>
+                  Adding Car...</>:"Add Car"}</Button>
+
+ 
               
 
 
@@ -473,6 +485,8 @@ const AddCarForm = () => {
 
   </TabsContent>
 </Tabs>
+
+
     </div>
   )
 }
