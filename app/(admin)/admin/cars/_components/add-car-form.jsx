@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
@@ -17,6 +17,9 @@ import { toast } from 'sonner';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { set } from 'date-fns';
+import useFetch from '@/hooks/use-fetch';
+import { addCar } from '@/actions/cars';
+import { se } from 'date-fns/locale';
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
@@ -82,11 +85,35 @@ const AddCarForm = () => {
     },
   })
 
+ const {data:addCarResult,
+       loading: addCarLoading,
+       fn: addCarFn} = useFetch(addCar)
+
+       useEffect(() => {
+        if(addCarResult?.success){
+          toast.success("Car added successfully");
+          Router.push("/admin/cars");
+        }
+       },[addCarResult, addCarLoading])
+
   const onSubmit = async (data) => {
     if(uploadedImages.length === 0){
       setImageError("Please upload at least one image");
       return;
     }
+
+    const carData ={
+      ...data,
+      year: parseInt(data.year),
+      price: parseFloat(data.price),
+      mileage: parseFloat(data.mileage),
+      seats: data.seats ? parseInt(data.seats) : null,
+    };
+
+    await addCarFn({
+      carData,
+      images: uploadedImages,
+    })
   };
 
   const onMultiImagesDrop = (acceptedFiles) => {
@@ -461,8 +488,8 @@ const AddCarForm = () => {
                   )}
                 </div>
                 <Button type="submit" className="w-full md:w-auto"
-                disabled={true}>
-                  {true? <><Loader2 className='mr-2 h-4 w-4 animate-spin'/>
+                disabled={addCarLoading}>
+                  {addCarLoading? <><Loader2 className='mr-2 h-4 w-4 animate-spin'/>
                   Adding Car...</>:"Add Car"}</Button>
 
  
