@@ -508,7 +508,17 @@ const AddCarForm = () => {
 
 
   <TabsContent value="ai" className="mt-6">
-    {/* ai entry code */}
+   <Card>
+  <CardHeader>
+    <CardTitle>AI-Powered Car Details Extraction</CardTitle>
+    <CardDescription>Upload an image of a car and let Gemini AI extract its details</CardDescription>
+
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+
+</Card>
 
   </TabsContent>
 </Tabs>
