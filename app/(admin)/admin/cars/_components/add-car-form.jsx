@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
-import { Loader2, Upload, X } from 'lucide-react';
+import { Camera, Loader2, Upload, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
@@ -550,11 +550,11 @@ const AddCarForm = () => {
     <div className='space-y-6'>
       <div>
         {imagePreview?<div></div>:(
-           <div {...getAiRootProps()} className='cursor-pointer'>
+           <div {...getAiRootProps()} className='cursor-pointer hover:bg-gray-50 transition'>
                           
                         <input {...getAiInputProps()} />
                  <div className='flex flex-col items-center'>
-                <Upload className='h-12 w-12 text-gray-400 mb-2'/>
+                <Camera className='h-12 w-12 text-gray-400 mb-2'/>
                 <p>
                   Drag & drop a car image here or click to select one
                 </p>
