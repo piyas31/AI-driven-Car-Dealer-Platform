@@ -39,6 +39,8 @@ const AddCarForm = () => {
   const [activeTab, setActiveTab]= useState("ai");
   const[uploadedImages, setUploadedImages] = useState([]);
   const[imageError, setImageError] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const[uploadedAiImage, setUploadedAiImage] = useState(null);
 
   const carFormSchema = z.object({
     make: z.string().min(1,"Make is required"),
@@ -84,6 +86,36 @@ const AddCarForm = () => {
       featured: false,
     },
   })
+
+  const onAiDrop = (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      if (file) {
+        if(file.size > 5 * 1024 * 1024){
+          toast.error("File size exceeds 5MB limit");
+          return;
+        }
+        setUploadedAiImage(file);
+        const reader = new FileReader();
+        reader.onloa= (e) => {
+          setImagePreview(e.reader.result);
+          toast.success("Image uploaded successfully");
+        };
+  
+        reader.readAsDataURL(file);
+      }
+    }
+
+  const {
+    getRootProps: getAiRootProps,
+    getInputProps: getAiInputProps,
+   } = useDropzone({
+    onDrop: onAiDrop,
+    accept:{
+      "image/*": [".jpeg", ".jpg", ".png", ".webp"]
+    },
+    maxFiles: 1,
+    multiple: false,
+  });
 
  const {data:addCarResult,
        loading: addCarLoading,
@@ -515,7 +547,27 @@ const AddCarForm = () => {
 
   </CardHeader>
   <CardContent>
-    <p>Card Content</p>
+    <div className='space-y-6'>
+      <div>
+        {imagePreview?<div></div>:(
+           <div {...getAiRootProps()} className='cursor-pointer'>
+                          
+                        <input {...getAiInputProps()} />
+                 <div className='flex flex-col items-center'>
+                <Upload className='h-12 w-12 text-gray-400 mb-2'/>
+                <p>
+                  Drag & drop a car image here or click to select one
+                </p>
+      
+                <p className='text-gray-400 text-sm'>
+                  Supports: JPG, PNG, WebP (max 5MB)
+                </p>
+                </div>
+                
+              </div>
+        )}
+      </div>
+    </div>
   </CardContent>
 
 </Card>
