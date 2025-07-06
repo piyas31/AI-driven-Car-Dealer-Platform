@@ -548,18 +548,23 @@ const AddCarForm = () => {
   </CardHeader>
   <CardContent>
     <div className='space-y-6'>
-      <div>
-        {imagePreview?<div></div>:(
+      <div className='border-2 border-dashed rounded-lg p-6 text-center'>
+        {imagePreview?<div className='flex flex-col items-center'>
+          <img src={imagePreview}
+          alt='Car Preview'
+          className='max-h-56 max-w-full object-contain mb-4'
+          />
+        </div>:(
            <div {...getAiRootProps()} className='cursor-pointer hover:bg-gray-50 transition'>
                           
                         <input {...getAiInputProps()} />
-                 <div className='flex flex-col items-center'>
+                 <div className='flex flex-col items-center justify-center'>
                 <Camera className='h-12 w-12 text-gray-400 mb-2'/>
                 <p>
                   Drag & drop a car image here or click to select one
                 </p>
       
-                <p className='text-gray-400 text-sm'>
+                <p className='text-gray-500 text-xs mt-1'>
                   Supports: JPG, PNG, WebP (max 5MB)
                 </p>
                 </div>
