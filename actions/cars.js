@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 
 
 async function fileToBase64(file) {
-    const bytes = await file.arraybuffer();
+    const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     return buffer.toString('base64');
 }
@@ -66,8 +66,8 @@ export async function processCarImageWithAI(file) {
     `;
 
     const result = await model.generateContent([imagePart,prompt]);
-    const response = await result.text.response;
-    const text = response.text;
+    const response = await result.response;
+    const text = await response.text();
      const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
      try {

@@ -153,6 +153,21 @@ const AddCarForm = () => {
       setValue("mileage", carDetails.mileage);
       setValue("transmission", carDetails.transmission);
       setValue("description", carDetails.description);
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedImages((prev) => [...prev, e.target.result]);
+      };
+      reader.readAsDataURL(uploadedAiImage);
+
+       toast.success("Successfully extracted car details", {
+        description: `Detected ${carDetails.year} ${carDetails.make} ${
+          carDetails.model
+        } with ${Math.round(carDetails.confidence * 100)}% confidence`,
+      });
+
+      
+      setActiveTab("manual");
   }
  }, [processImageResult, uploadedAiImage])
 
