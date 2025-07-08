@@ -20,6 +20,7 @@ import { set } from 'date-fns';
 import useFetch from '@/hooks/use-fetch';
 import { addCar, processCarImageWithAI } from '@/actions/cars';
 import { se } from 'date-fns/locale';
+import { useRouter } from 'next/navigation';
 
 const fuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "Plug-in Hybrid"];
 const transmissions = ["Automatic", "Manual", "Semi-Automatic"];
@@ -41,6 +42,7 @@ const AddCarForm = () => {
   const[imageError, setImageError] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const[uploadedAiImage, setUploadedAiImage] = useState(null);
+  const router = useRouter();
 
   const carFormSchema = z.object({
     make: z.string().min(1,"Make is required"),
@@ -180,7 +182,7 @@ const AddCarForm = () => {
        useEffect(() => {
         if(addCarResult?.success){
           toast.success("Car added successfully");
-          Router.push("/admin/cars");
+          router.push("/admin/cars");
         }
        },[addCarResult, addCarLoading])
 
