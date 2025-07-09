@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { Input } from './ui/input';
 import { Camera, Upload } from 'lucide-react';
 import { Button } from './ui/button';
@@ -8,6 +8,7 @@ import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { processImageSearch } from '@/actions/home';
+import useFetch from '@/hooks/use-fetch';
 
 const HomeSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,6 +45,28 @@ const HomeSearch = () => {
 
     await processImageFn(searchImage);
   };
+
+  useEffect(()=>{
+    if(processError) {
+      toast.error(
+        "Failed to analyze image: " + (processError.message || "Unknown error")
+      )
+    }
+  },[processError])
+
+  useEffect(()=> {
+    if(processResult?.success){
+      const params = new URLSearchParams();
+
+       if (processResult.data.make) params.set("make", processResult.data.make);
+      if (processResult.data.bodyType)
+        params.set("bodyType", processResult.data.bodyType);
+      if (processResult.data.color)
+        params.set("color", processResult.data.color);
+
+      router.push(`/cars?${params.toString()}`);
+    }
+  }, [processResult, router])
 
    const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -151,8 +174,8 @@ const HomeSearch = () => {
           {imagePreview && <Button
           type="submit"
           className="w-full mt-2"
-          disabled={isUploading}
-          >{isUploading ? "Uploading..." :"Search with this image"}</Button>}
+          disabled={isUploading || isProcessing}
+          >{isUploading ? "Uploading..." : isProcessing? "Analyzing Image...":"Search with this image"}</Button>}
         </form>
         </div>)}
     </div>
