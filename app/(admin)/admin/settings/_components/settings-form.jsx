@@ -145,11 +145,13 @@ export const SettingsForm = () => {
 
         setWorkingHours(mappedHours);
       }
+      
     }
   }, [settingsData]);
 
   // Handle errors
   useEffect(() => {
+
     if (settingsError) {
       toast.error("Failed to load dealership settings");
     }
@@ -160,6 +162,7 @@ export const SettingsForm = () => {
 
     if (usersError) {
       toast.error("Failed to load users");
+
     }
 
     if (updateRoleError) {
@@ -170,14 +173,18 @@ export const SettingsForm = () => {
   // Handle successful operations
   useEffect(() => {
     if (saveResult?.success) {
+
       toast.success("Working hours saved successfully");
       fetchDealershipInfo();
     }
 
     if (updateRoleResult?.success) {
+
       toast.success("User role updated successfully");
       fetchUsers();
+
       setConfirmAdminDialog(false);
+      
       setConfirmRemoveDialog(false);
     }
   }, [saveResult, updateRoleResult]);
@@ -207,7 +214,9 @@ export const SettingsForm = () => {
   const handleRemoveAdmin = async () => {
     if (!userToDemote) return;
     await updateRole(userToDemote.id, "USER");
+
   };
+
 
   // Filter users by search term
   const filteredUsers = usersData?.success
@@ -217,6 +226,7 @@ export const SettingsForm = () => {
           user.email.toLowerCase().includes(userSearch.toLowerCase())
       )
     : [];
+
 
   return (
     <div className="space-y-6">
@@ -231,6 +241,8 @@ export const SettingsForm = () => {
             Admin Users
           </TabsTrigger>
         </TabsList>
+
+
 
         <TabsContent value="hours" className="space-y-6 mt-6">
           <Card>
@@ -315,6 +327,8 @@ export const SettingsForm = () => {
                 ))}
               </div>
 
+
+
               <div className="mt-6 flex justify-end">
                 <Button onClick={handleSaveHours} disabled={savingHours}>
                   {savingHours ? (
@@ -333,6 +347,8 @@ export const SettingsForm = () => {
             </CardContent>
           </Card>
         </TabsContent>
+
+
 
         <TabsContent value="admins" className="space-y-6 mt-6">
           <Card>
@@ -353,6 +369,8 @@ export const SettingsForm = () => {
                   onChange={(e) => setUserSearch(e.target.value)}
                 />
               </div>
+
+
 
               {fetchingUsers ? (
                 <div className="py-12 flex justify-center">
@@ -471,6 +489,8 @@ export const SettingsForm = () => {
                   onClick={() => setConfirmAdminDialog(false)}
                   disabled={updatingRole}
                 >
+
+
                   Cancel
                 </Button>
                 <Button onClick={handleMakeAdmin} disabled={updatingRole}>
@@ -489,6 +509,9 @@ export const SettingsForm = () => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+
+
+
 
           {/* Confirm Remove Admin Dialog */}
           <Dialog
