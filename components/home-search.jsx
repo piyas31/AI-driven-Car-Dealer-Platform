@@ -7,6 +7,7 @@ import { Button } from './ui/button';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { processImageSearch } from '@/actions/home';
 
 const HomeSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +17,13 @@ const HomeSearch = () => {
   const [isUploading, setIsUploading] = useState(false);
   
   const router = useRouter();
+
+  const{
+    loading: isProcessing,
+    fn: processImageFn,
+    data: processResult,
+    error: processError,
+  } = useFetch(processImageSearch);
 
   const handleTextSubmit =async (e) => {
     e.preventDefault();
@@ -33,6 +41,8 @@ const HomeSearch = () => {
     }
 
     //add ai logic
+
+    await processImageFn(searchImage);
   };
 
    const onDrop = (acceptedFiles) => {
