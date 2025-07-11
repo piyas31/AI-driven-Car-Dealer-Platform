@@ -33,3 +33,5 @@ export function SavedCarsList({ initialData }) {
     </div>
   );
 }
+
+export default SavedCarsList;

@@ -16,25 +16,31 @@ export async function generateMetadata({ params }) {
   const car = result.data;
 
   return {
+
     title: `${car.year} ${car.make} ${car.model} | Vehiql`,
     description: car.description.substring(0, 160),
     openGraph: {
+
       images: car.images?.[0] ? [car.images[0]] : [],
+
     },
   };
 }
 
+
+
 export default async function CarDetailsPage({ params }) {
-  // Fetch car details
   const { id } = await params;
   const result = await getCarById(id);
 
-  // If car not found, show 404
   if (!result.success) {
+
     notFound();
+    
   }
 
   return (
+
     <div className="container mx-auto px-4 py-12">
       <CarDetails car={result.data} testDriveInfo={result.data.testDriveInfo} />
     </div>
