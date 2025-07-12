@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
 
   if (!result.success) {
     return {
-      title: "Car Not Found | Vehiql",
+      title: "Car Not Found | PiyasGenDrive",
       description: "The requested car could not be found",
     };
   }

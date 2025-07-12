@@ -46,7 +46,6 @@ export function CarDetails({ car, testDriveInfo }) {
     error: toggleError,
   } = useFetch(toggleSavedCar);
 
-  // Handle toggle result with useEffect
   useEffect(() => {
     if (toggleResult?.success) {
       setIsWishlisted(toggleResult.saved);
@@ -54,14 +53,14 @@ export function CarDetails({ car, testDriveInfo }) {
     }
   }, [toggleResult]);
 
-  // Handle errors with useEffect
+
   useEffect(() => {
     if (toggleError) {
       toast.error("Failed to update favorites");
     }
   }, [toggleError]);
 
-  // Handle save car
+
   const handleSaveCar = async () => {
     if (!isSignedIn) {
       toast.error("Please sign in to save cars");
@@ -71,11 +70,11 @@ export function CarDetails({ car, testDriveInfo }) {
 
     if (savingCar) return;
 
-    // Use the toggleSavedCarFn from useFetch hook
+  
     await toggleSavedCarFn(car.id);
   };
 
-  // Handle share
+
   const handleShare = () => {
     if (navigator.share) {
       navigator
@@ -98,7 +97,7 @@ export function CarDetails({ car, testDriveInfo }) {
     toast.success("Link copied to clipboard");
   };
 
-  // Handle book test drive
+
   const handleBookTestDrive = () => {
     if (!isSignedIn) {
       toast.error("Please sign in to book a test drive");
@@ -111,7 +110,7 @@ export function CarDetails({ car, testDriveInfo }) {
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Image Gallery */}
+    
         <div className="w-full lg:w-7/12">
           <div className="aspect-video rounded-lg overflow-hidden relative mb-4">
             {car.images && car.images.length > 0 ? (
@@ -129,7 +128,7 @@ export function CarDetails({ car, testDriveInfo }) {
             )}
           </div>
 
-          {/* Thumbnails */}
+         
           {car.images && car.images.length > 1 && (
             <div className="flex gap-2 overflow-x-auto pb-2">
               {car.images.map((image, index) => (
@@ -155,7 +154,7 @@ export function CarDetails({ car, testDriveInfo }) {
             </div>
           )}
 
-          {/* Secondary Actions */}
+      
           <div className="flex mt-4 gap-4">
             <Button
               variant="outline"
@@ -181,7 +180,7 @@ export function CarDetails({ car, testDriveInfo }) {
           </div>
         </div>
 
-        {/* Car Details */}
+      
         <div className="w-full lg:w-5/12">
           <div className="flex items-center justify-between">
             <Badge className="mb-2">{car.bodyType}</Badge>
@@ -195,7 +194,6 @@ export function CarDetails({ car, testDriveInfo }) {
             {formatCurrency(car.price)}
           </div>
 
-          {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-6">
             <div className="flex items-center gap-2">
               <Gauge className="text-gray-500 h-5 w-5" />
@@ -234,13 +232,12 @@ export function CarDetails({ car, testDriveInfo }) {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Vehiql Car Loan Calculator</DialogTitle>
+                <DialogTitle>PiyasGenDrive Car Loan Calculator</DialogTitle>
                 <EmiCalculator price={car.price} />
               </DialogHeader>
             </DialogContent>
           </Dialog>
 
-          {/* Request More Info */}
           <Card className="my-6">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-lg font-medium mb-2">
@@ -268,7 +265,7 @@ export function CarDetails({ car, testDriveInfo }) {
             </Alert>
           )}
 
-          {/* Book Test Drive Button */}
+        
           {car.status !== "SOLD" && car.status !== "UNAVAILABLE" && (
             <Button
               className="w-full py-6 text-lg"
@@ -285,13 +282,15 @@ export function CarDetails({ car, testDriveInfo }) {
             </Button>
           )}
         </div>
+
       </div>
 
-      {/* Details & Features Section */}
+      
       <div className="mt-12 p-6 bg-white rounded-lg shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-2xl font-bold mb-6">Description</h3>
+
             <p className="whitespace-pre-line text-gray-700">
               {car.description}
             </p>
@@ -326,7 +325,8 @@ export function CarDetails({ car, testDriveInfo }) {
         </div>
       </div>
 
-      {/* Specifications Section */}
+      
+      
       <div className="mt-8 p-6 bg-white rounded-lg shadow-sm">
         <h2 className="text-2xl font-bold mb-6">Specifications</h2>
         <div className="bg-gray-50 rounded-lg p-6">
@@ -375,12 +375,13 @@ export function CarDetails({ car, testDriveInfo }) {
         </div>
       </div>
 
-      {/* Dealership Location Section */}
+      
       <div className="mt-8 p-6 bg-white rounded-lg shadow-sm">
         <h2 className="text-2xl font-bold mb-6">Dealership Location</h2>
         <div className="bg-gray-50 rounded-lg p-6">
           <div className="flex flex-col md:flex-row gap-6 justify-between">
-            {/* Dealership Name and Address */}
+        
+        
             <div className="flex items-start gap-3">
               <LocateFixed className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
               <div>
@@ -397,7 +398,7 @@ export function CarDetails({ car, testDriveInfo }) {
               </div>
             </div>
 
-            {/* Working Hours */}
+            
             <div className="md:w-1/2 lg:w-1/3">
               <h4 className="font-medium mb-2">Working Hours</h4>
               <div className="space-y-2">

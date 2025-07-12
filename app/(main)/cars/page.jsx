@@ -3,7 +3,7 @@ import { getCarFilters } from "@/actions/car-listing";
 import { CarListings } from "./_components/cars-listing";
 
 export const metadata = {
-  title: "Cars | Vehiql",
+  title: "Cars | PiyasGenDrive",
   description: "Browse and search for your dream car",
 };
 

@@ -89,7 +89,7 @@ function EmiCalculator({ price = 1000 }) {
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
             <h2 className="text-lg font-inter font-semibold text-gray-900 dark:text-white mb-3">
-              Vehicle Price
+              Car Price
             </h2>
             <div className="space-y-3">
               <div className="relative">
