@@ -13,6 +13,28 @@ pnpm dev
 # or
 bun dev
 ```
+Must create env file and add keys
+
+```bash
+# Clerk Authentication Keys
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
+CLERK_SECRET_KEY=your-clerk-secret-key
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+# Database Connection (Supabase Postgres)
+DATABASE_URL=postgresql://username:password@host:port/database?pgbouncer=true
+DIRECT_URL=postgresql://username:password@host:port/database
+
+# API Keys
+ARJECT_KEY=your-arject-api-key
+GEMINI_API_KEY=your-gemini-api-key
+
+# Supabase Public Configs
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
