@@ -41,7 +41,7 @@ const HomeSearch = () => {
       return;
     }
 
-    //add ai logic
+    //add ai logic for search by ai
 
     await processImageFn(searchImage);
   };
@@ -105,7 +105,7 @@ const HomeSearch = () => {
       <form onSubmit={handleTextSubmit}>
         <div className='relative flex items-center'>
           <Input type="text"
-          placeholder="Enter brand, model, or use our AI Image Search..."
+          placeholder="Enter here or use AI search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm text-gray-900 placeholder:text-gray-500"

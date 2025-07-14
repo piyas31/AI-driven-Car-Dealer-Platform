@@ -203,12 +203,12 @@ Next-Gen AI Car Search | Explore & Test Drive from Thousands of Cars          </
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Join Thousands of satisfeid customers who found their perfect vehicle through our platform
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 ">
             <Button size="lg" variant="secondary" asChild>
               <Link href="/cars">View All Cars</Link>
             </Button>
             <SignedOut>
-              <Button size="lg" asChild>
+              <Button size="lg" className="border border-gray-900" asChild>
                 <Link href="/sign-up">Sign Up Now</Link>
               </Button>
             </SignedOut>
