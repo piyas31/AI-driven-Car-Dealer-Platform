@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin" }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "x-powered-by": "PiyasGenDrive"
+      },
+      "continue": true
+    }
+  ]
+}
