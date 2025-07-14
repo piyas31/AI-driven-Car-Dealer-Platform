@@ -1,9 +1,11 @@
 import { getDashboardData } from "@/actions/admin";
 import { Dashboard } from "./_components/dashboard";
 import { auth } from "@clerk/nextjs/server";
+
+
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
-
+export const revalidate = 0;
 export const metadata = {
   title: "Dashboard | PiyasGenDrive Admin",
   description: "Admin dashboard for PiyasGenDrive",
