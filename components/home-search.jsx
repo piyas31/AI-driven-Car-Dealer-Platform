@@ -105,7 +105,7 @@ const HomeSearch = () => {
       <form onSubmit={handleTextSubmit}>
         <div className='relative flex items-center'>
           <Input type="text"
-          placeholder="Enter here or use AI search"
+          placeholder="Enter or AI Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm text-gray-900 placeholder:text-gray-500"
