@@ -35,7 +35,7 @@ const Sidebar = () => {
   return (
     <>
     {/* For Desktop */}
-    <div className='hidden md:flex h-full flex-col overflow-y-auto bg-white shadow-sm border-r'>
+    <div className='hidden md:flex h-full flex-col overflow-y-auto bg-white shadow-sm border-r border-r-gray-200'>
       {routes.map((route)=>{
         return <Link key={route.href} href={route.href}
         className={cn ("flex items-center gap-x-2 text-slate-500 text-sm font-medium pl-6 transition-all hover:text-slate-600 hover:bg-slate-100/50 h-12",

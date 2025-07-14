@@ -490,7 +490,7 @@ const AddCarForm = () => {
                 </div>
 
                  {/* Featured */}
-                <div className="flex items-start space-x-3 space-y-0 rounded-md border p-4">
+                <div className="flex items-start space-x-3 space-y-0 rounded-md border border-gray-200 p-4">
                   <Checkbox
                     id="featured"
                     checked={watch("featured")}

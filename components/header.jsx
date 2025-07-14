@@ -13,7 +13,7 @@ const user = await checkUser();
 const isAdmin = user?.role === "ADMIN";
 
   return (
-    <header className='fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b'>
+    <header className='fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-b-gray-200'>
       <nav className='mx-auto px-4 py-4 flex items-center justify-between'>
         <Link href= {isAdminPage ? "/admin" : "/"} className='flex'>
           <Image
