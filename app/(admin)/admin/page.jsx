@@ -1,10 +1,9 @@
 import { getDashboardData } from "@/actions/admin";
 import { Dashboard } from "./_components/dashboard";
+import { auth } from "@clerk/nextjs/server";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
-
-
 
 export const metadata = {
   title: "Dashboard | PiyasGenDrive Admin",
@@ -12,7 +11,9 @@ export const metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const dashboardData = await getDashboardData();
+  const { userId } = await auth(); 
+
+  const dashboardData = await getDashboardData(userId); 
 
   return (
     <div className="p-6">

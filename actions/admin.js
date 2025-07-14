@@ -156,10 +156,15 @@ export async function updateTestDriveStatus(bookingId, newStatus) {
   }
 }
 
-export async function getDashboardData() {
+
+export async function getDashboardData(userId) {
   try {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
+    if (!userId) {
+      return {
+        success: false,
+        error: "Unauthorized",
+      };
+    }
 
     const user = await db.user.findUnique({
       where: { clerkUserId: userId },
@@ -172,8 +177,6 @@ export async function getDashboardData() {
       };
     }
 
-
-
     const [cars, testDrives] = await Promise.all([
       db.car.findMany({
         select: {
@@ -182,7 +185,6 @@ export async function getDashboardData() {
           featured: true,
         },
       }),
-
       db.testDriveBooking.findMany({
         select: {
           id: true,
@@ -191,15 +193,11 @@ export async function getDashboardData() {
         },
       }),
     ]);
-    const totalCars = cars.length;
-    const availableCars = cars.filter(
 
-      (car) => car.status === "AVAILABLE"
-    ).length;
-const soldCars = cars.filter((car) => car.status === "SOLD").length;
-const unavailableCars = cars.filter(
-      (car) => car.status === "UNAVAILABLE"
-    ).length;
+    const totalCars = cars.length;
+    const availableCars = cars.filter((car) => car.status === "AVAILABLE").length;
+    const soldCars = cars.filter((car) => car.status === "SOLD").length;
+    const unavailableCars = cars.filter((car) => car.status === "UNAVAILABLE").length;
     const featuredCars = cars.filter((car) => car.featured === true).length;
 
     const totalTestDrives = testDrives.length;
@@ -213,7 +211,9 @@ const unavailableCars = cars.filter(
       .filter((td) => td.status === "COMPLETED")
       .map((td) => td.carId);
 
-    const soldCarsAfterTestDrive = cars.filter((car) =>car.status === "SOLD" && completedTestDriveCarIds.includes(car.id)).length;
+    const soldCarsAfterTestDrive = cars.filter(
+      (car) => car.status === "SOLD" && completedTestDriveCarIds.includes(car.id)
+    ).length;
 
     const conversionRate =
       completedTestDrives > 0
@@ -243,7 +243,8 @@ const unavailableCars = cars.filter(
     };
   } catch (error) {
     console.error("Error fetching dashboard data:", error.message);
-    return {success: false,
+    return {
+      success: false,
       error: error.message,
     };
   }
