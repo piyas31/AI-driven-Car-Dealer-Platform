@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental:{
+  experimental: {
     serverComponentsHmrCache: false,
   },
-
   images: {
     remotePatterns: [
       {
@@ -12,18 +11,7 @@ const nextConfig = {
       },
     ],
   },
-  async headers () {
-    return [
-      {
-        source: "/embed", 
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value: "frame-src 'self' https://piyasgendrive-waitlist.created.app"
-          }
-        ]
-      }
-    ]
-  }
+  // headers() function removed
 };
+
 export default nextConfig;
